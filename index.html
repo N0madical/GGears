@@ -28,7 +28,7 @@
         width: 96vw;
         position: absolute; 
         bottom: 2vw;
-        border-radius: 100px;
+        border-radius: 140px;
         background-color: var(--bg-dark);
         left: 50%;
         transform: translateX(-50%);
@@ -112,7 +112,8 @@
             rotateControl: true,
             rotateControlOptions: {
               position: google.maps.ControlPosition.LEFT_CENTER,
-            }
+            },
+            controlSize: 50,
           });
         }
 
@@ -133,19 +134,19 @@
         moved = 0 //Record if the pointer moved
         movement = 0 //The current movement of the item in pixels
         mode = 0
-        initHeight = "45mm" //Initial height of the HUD
+        initHeight = "80mm" //Initial height of the HUD
         openHeight = "50%"
         document.getElementById("hud").style.height = initHeight
         setHeight = initHeight
 
         function handleTouch(evt) { //Handle touches
           touch0 = evt.pageY + movement
-          document.getElementById("hud").style.transition = ""
           moved = 1
         }
 
         function handleMove(evt) {
           if(moved != 0) {
+            document.getElementById("hud").style.transition = ""
             moved = 2
             movement = (touch0 - evt.pageY)
             document.getElementById("hud").style.height = `calc(${setHeight} + ${movement}px)`
