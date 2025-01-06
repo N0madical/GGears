@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>GGears</title>
+        <link rel="manifest" href="/manifest.json">
     </head>
     <style>
       @font-face { font-family: SFpro; src: url('font/SFpro-regular.OTF'); }
@@ -27,20 +28,19 @@
         width: 96vw;
         position: absolute; 
         bottom: 2vw;
-        border-radius: 60px;
+        border-radius: 80px;
         background-color: var(--bg-dark);
         left: 50%;
         transform: translateX(-50%);
+        box-shadow: rgba(0,0,0,0.5) 0 0 3px;
       }
-
-      .transition {}
 
       .text-center {
         text-align: center;
       }
 
       h1 {
-        font-size: 20mm;
+        font-size: 18mm;
       }
 
       h2 {
@@ -50,6 +50,10 @@
       h1, h2, h3, h4, h5, p {
         color: black;
         font-family: SFpro;
+        text-shadow: rgba(0,0,0,.01) 0 0 1px;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       @media (prefers-color-scheme: light) {
@@ -101,7 +105,7 @@
       <script>
         document.getElementById("hud").onpointerdown = handleTouch
         document.getElementById("hud").onpointercancel = handleTouch
-        document.getElementById("hud").onpointermove = handleMove
+        document.onpointermove = handleMove
         document.getElementById("hud").onpointerup = handleUp
         document.getElementById("hud").addEventListener("touchmove", preventDef)
 
@@ -129,10 +133,10 @@
           movement = (touch0 - evt.pageY)
           document.getElementById("hud").style.height = `calc(${setHeight} + ${movement}px)`
           truHeight = parseInt(window.getComputedStyle(document.getElementById("hud")).getPropertyValue("height"), 10)
-          if(truHeight < (screen.height * 0.08)) {
-            document.getElementById("hud").style.height = `${(screen.height * 0.08)}px`
-          } else if (truHeight > (screen.height * 0.6)) {
-            document.getElementById("hud").style.height = `${(screen.height * 0.6)}px`
+          if(truHeight < (window.innerHeight * 0.08)) {
+            document.getElementById("hud").style.height = `${(window.innerHeight * 0.08)}px`
+          } else if (truHeight > (window.innerHeight * 0.6)) {
+            document.getElementById("hud").style.height = `${(window.innerHeight * 0.6)}px`
           }
         }
 
@@ -149,9 +153,9 @@
           } else {
             setHeight = openHeight
           }
+          movement = 0
           document.getElementById("hud").style.height = setHeight
           document.getElementById("hud").style.transition = "height 0.2s ease-out"
-          movement = 0
         }
       </script>
     </footer>

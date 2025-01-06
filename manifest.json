@@ -1,0 +1,17 @@
+{
+    "lang": "en-us",
+    "name": "Gompei's Gears Bike Rental",
+    "short_name": "GGears",
+    "description": "For all your free rental needs!",
+    "start_url": "/",
+    "background_color": "#2f3d58",
+    "theme_color": "#2f3d58",
+    "orientation": "any",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/icon240.png",
+            "sizes": "240x240"
+        }
+    ]
+}
