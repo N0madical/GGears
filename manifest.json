@@ -10,8 +10,8 @@
     "display": "standalone",
     "icons": [
         {
-            "src": "/app-icon.svg",
-            "sizes": "240x240"
+            "src": "/icon512.png",
+            "sizes": "512x512"
         }
     ]
 }
