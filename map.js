@@ -63,9 +63,10 @@ async function generateZones(csvIn) {
       fillOpacity: 0.35,
     });
 
-    const pinImg = document.createElement("img")
+    const pinImg = new Image()
     pinImg.src = `pins/pin${fillLevel}.svg`
     pinImg.style.height = "40mm"
+    document.appendChild(pinImg)
     const pin = new PinElement({
       scale: 3,
       glyph: pinImg
