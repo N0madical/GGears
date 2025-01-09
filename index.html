@@ -31,6 +31,7 @@
       html,
       body {
         height: 100%;
+        overflow: hidden;
         margin: 0;
         padding: 0;
         background-color: #AB2B37;
@@ -39,7 +40,7 @@
       #hud {
         width: 96vw;
         position: absolute; 
-        bottom: 2vw;
+        bottom: -50vw;
         border-radius: 140px;
         background-color: var(--bg-dark);
         left: 50%;
@@ -51,6 +52,7 @@
         background-color: #AB2B37;
         color: white;
         height: 45mm;
+        border-bottom: 2mm solid #8f2934;
       }
 
       #profileButton {
@@ -73,11 +75,15 @@
         transform: translate(-50%, -25%);
       }
 
+      #greeter {
+        padding-top: 15mm;
+      }
+
       .logo {
         position:absolute;
-        left: 7mm;
-        top: 7mm;
-        width: 30mm;
+        left: 20mm;
+        top: 2mm;
+        width: 20mm;
       }
 
       .text-center {
@@ -125,9 +131,10 @@
     </style>
     <body style="height: 100vh;">
       <div id="header">
-        <img class="logo" src="icon-white.svg" alt="Logo"></img>
-        <h1 class="text-center" style="position: absolute; left: 50%; transform: translateX(-50%); width: 100%; top: -5mm; color: #FFFFFF;">Gompei's Gears</h1>
-        <p class="text-center" style="position: absolute; left: 50%; transform: translateX(-50%); width: 100%; top: 20mm; font-size: 8mm; color: #FFFFFF;">WPI Bicycle Rental</p>
+        <img class="logo" src="bicycle.svg" alt="Logo"></img>
+        <img style="position: absolute; left: 90mm; top: 15mm; width: 15mm;" src="g-gear.svg" alt="Logo"></img>
+        <img style="position: absolute; left: 140mm; top: 10mm; width: 10mm;" src="leaf.svg" alt="Logo"></img>
+        <h1 class="text-center" style="position: absolute; left: 5mm; top: 0mm; color: #FFFFFF;">Gompei's Gears</h1>
         <a href="javascript:updateLogin()" id="profileLink"><img alt="profile" id="profileButton" src="profile.svg"><h3 id="userName" class="text-center"></h3></img></a>
       </div>
       <div id="map"></div>
@@ -136,7 +143,7 @@
           <h1 id="greeter" class="text-center">
             Select a Station to Begin
           </h1>
-          <h2 id="greeter" class="text-center" style="padding-top: 10px;">
+          <h2 class="text-center" style="padding-top: 10px;">
             You found me!
           </h2>
         </div>
@@ -200,9 +207,11 @@
           data = data.map(item => item.substr(item.indexOf("((")+2,item.len).split(`))",`).reverse())
           data = data.map(item => [item[0], item[1].split(", ")])
           
-          for(i in data) {
+          for(let i in data) {
+            let fillLevel = Math.floor(Math.random()*5)
             let cords = []
-            for(j in data[i][1]) {
+
+            for(let j in data[i][1]) {
               arr = data[i][1][j].split(" ").reverse()
               cords.push({ lat : Number(arr[0]), lng : Number(arr[1])})
             }
@@ -214,8 +223,13 @@
               fillColor: "#FF0000",
               fillOpacity: 0.35,
             });
+
+            const pinImg = document.createElement("img")
+            pinImg.src = `pins/pin${fillLevel}.svg`
+            pinImg.style.height = "40mm"
             const pin = new PinElement({
               scale: 3,
+              glyph: pinImg
             });
             const marker = new AdvancedMarkerElement({
               map,
@@ -227,8 +241,7 @@
             marker.addListener("click", ({ domEvent, latLng }) => {
               const { target } = domEvent;
 
-              moved = 1
-              handleUp()
+              showHud(data[i][0])
             });
             zone.setMap(mainMap)
             zones.push(zone)
@@ -238,6 +251,8 @@
         initMap();
       </script>
       <script>
+        visible = false
+        var activePin = "None"
 
         document.getElementById("hud").onpointerdown = handleTouch
         document.getElementById("hud").onpointercancel = handleTouch
@@ -247,6 +262,14 @@
 
         function preventDef(evt) {
           evt.preventDefault()
+        }
+
+        function showHud(pinIn) {
+          activePin = pinIn
+          visible = true
+          document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
+          document.getElementById("hud").style.bottom = "1vh"
+          document.getElementById("greeter").textContent = activePin
         }
 
         touch0 = 0 //Where the touch was first performed
@@ -275,6 +298,7 @@
             } else if (truHeight > (window.innerHeight * 0.6)) {
               document.getElementById("hud").style.height = `${(window.innerHeight * 0.6)}px`
             }
+            console.debug(movement)
           }
         }
 
@@ -283,6 +307,10 @@
             if(moved == 1) {mode = (mode == 0) ? 1:0}
             if(movement > 300 && mode == 0) {
               mode = 1
+            } else if(movement < -30 && mode == 0) {
+              visible = false
+              document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
+              document.getElementById("hud").style.bottom = "-50vh"
             } else if(movement < -300 && mode == 1) {
               mode = 0
             }
@@ -292,7 +320,9 @@
               setHeight = openHeight
             }
             movement = 0
-            document.getElementById("hud").style.transition = "height 0.2s ease-out"
+            if(visible) {
+              document.getElementById("hud").style.transition = "height 0.2s ease-out"
+            }
             document.getElementById("hud").style.height = setHeight
             moved = 0
           }
