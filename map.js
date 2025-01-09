@@ -66,7 +66,7 @@ async function generateZones(csvIn) {
     const pinImg = new Image()
     pinImg.src = `pins/pin${fillLevel}.svg`
     pinImg.style.height = "40mm"
-    document.appendChild(pinImg)
+    document.body.appendChild(pinImg)
     const pin = new PinElement({
       scale: 3,
       glyph: pinImg
