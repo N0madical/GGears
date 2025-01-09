@@ -16,6 +16,7 @@ function showHud(pinIn) {
   visible = true
   document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
   document.getElementById("hud").style.bottom = "1vh"
+  document.getElementById("hud").style.top = ""
   document.getElementById("greeter").textContent = activePin
 }
 
@@ -57,7 +58,8 @@ function handleUp(evt) {
     } else if(movement < -30 && mode == 0) {
       visible = false
       document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
-      document.getElementById("hud").style.bottom = "-50vh"
+      document.getElementById("hud").style.bottom = ""
+      document.getElementById("hud").style.top = "100vh"
     } else if(movement < -300 && mode == 1) {
       mode = 0
     }

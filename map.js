@@ -6,6 +6,7 @@ async function initMap() {
 
   mainMap = new Map(document.getElementById("map"), {
     zoom: 19,
+    gestureHandling: "greedy",
     center: { lat: 42.273836, lng: -71.809810 },
     mapId: 'DEMO_MAP_ID',
     mapTypeId: "satellite",
