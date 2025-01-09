@@ -28,7 +28,7 @@ body {
 #hud {
     width: 96vw;
     position: absolute; 
-    top: 100vh;
+    visibility: hidden;
     border-radius: 140px;
     background-color: var(--bg-dark);
     left: 50%;

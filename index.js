@@ -14,9 +14,10 @@ function preventDef(evt) {
 function showHud(pinIn) {
   activePin = pinIn
   visible = true
+  document.getElementById("hud").style.height = setHeight
+  document.getElementById("hud").style.visibility = "visible"
   document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
-  document.getElementById("hud").style.bottom = "1vh"
-  document.getElementById("hud").style.top = ""
+  document.getElementById("hud").style.bottom = "2vh"
   document.getElementById("greeter").textContent = activePin
 }
 
@@ -26,8 +27,9 @@ movement = 0 //The current movement of the item in pixels
 mode = 0
 initHeight = "80mm" //Initial height of the HUD
 openHeight = "50%"
-document.getElementById("hud").style.height = initHeight
 setHeight = initHeight
+document.getElementById("hud").style.height = initHeight
+document.getElementById("hud").style.bottom = `-${setHeight}`
 
 function handleTouch(evt) { //Handle touches
   touch0 = evt.pageY + movement
@@ -53,26 +55,25 @@ function handleMove(evt) {
 function handleUp(evt) {
   if(moved != 0) {
     if(moved == 1) {mode = (mode == 0) ? 1:0}
-    if(movement > 300 && mode == 0) {
+    if(movement > 150 && mode == 0) {
       mode = 1
-    } else if(movement < -30 && mode == 0) {
+    } else if(movement < -50 && mode == 0) {
       visible = false
       document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
-      document.getElementById("hud").style.bottom = ""
-      document.getElementById("hud").style.top = "100vh"
-    } else if(movement < -300 && mode == 1) {
+      document.getElementById("hud").style.bottom = `-${setHeight}`
+    } else if(movement < -150 && mode == 1) {
       mode = 0
-    }
-    if(mode == 0) {
-      setHeight = initHeight
-    } else {
-      setHeight = openHeight
     }
     movement = 0
     if(visible) {
+        if(mode == 0) {
+            setHeight = initHeight
+        } else {
+            setHeight = openHeight
+        }
       document.getElementById("hud").style.transition = "height 0.2s ease-out"
+      document.getElementById("hud").style.height = setHeight
     }
-    document.getElementById("hud").style.height = setHeight
     moved = 0
   }
 }
