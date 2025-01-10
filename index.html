@@ -10,10 +10,15 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
       <link rel="stylesheet" href="index.css">
+      <!-- <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+      <script>
+        eruda.init();
+        eruda.scale(2);
+      </script> -->
     </head>
     <body style="height: 100vh;">
       <div id="header">
-        <img class="logo" src="icons/bicycle.svg" alt="Bicycle"></img>
+        <a href="javascript:location.reload()"><img class="logo" src="icons/bicycle.svg" alt="Bicycle"></img></a>
         <img style="position: absolute; left: 90mm; top: 15mm; width: 15mm;" src="icons/g-gear.svg"></img>
         <img style="position: absolute; left: 140mm; top: 10mm; width: 10mm;" src="icons/leaf.svg" alt="Leaf"></img>
         <h1 class="text-center" style="position: absolute; left: 5mm; top: 0mm; color: #FFFFFF;">Gompei's Gears</h1>
@@ -23,11 +28,15 @@
       <div id="overlay">
         <div id="hud">
           <h1 id="greeter" class="text-center">
-            Select a Station to Begin
+            Unlock Bike
           </h1>
-          <h2 class="text-center" style="padding-top: 10px;">
+          <h2 id="info" class="text-center" style="margin-top: 5mm;">
             You found me!
           </h2>
+          <a href="javascript:activateCamera()"><div id="camera">
+            <video id="cameraFeed" autoplay="true" style="position: absolute; height: 100%; object-fit: cover;"></video>
+            <h3 style="padding-top: 98mm; color: black;" class="text-center">Click to Activate Camera</h3>
+          </div></a>
         </div>
       </div>
     </body>
@@ -42,5 +51,6 @@
       <script src="map.js"></script>
       <script src="index.js"></script>
       <script src="login.js"></script>
+      <script src="scan.js"></script>
     </footer>
 </html>

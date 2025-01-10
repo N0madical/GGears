@@ -1,5 +1,10 @@
+printer = true
 visible = false
 var activePin = "None"
+
+function print(input) {
+  if(printer) {console.debug(input)}
+}
 
 document.getElementById("hud").onpointerdown = handleTouch
 document.getElementById("hud").onpointercancel = handleTouch
@@ -11,14 +16,13 @@ function preventDef(evt) {
   evt.preventDefault()
 }
 
-function showHud(pinIn) {
-  activePin = pinIn
+function showHud(pinIn,count,total) {
+  document.getElementById("info").textContent = `${count}/${total} bikes remaining at the ${pinIn} bike rack`
   visible = true
   document.getElementById("hud").style.height = setHeight
   document.getElementById("hud").style.visibility = "visible"
   document.getElementById("hud").style.transition = "bottom 0.2s ease-out"
-  document.getElementById("hud").style.bottom = "2vh"
-  document.getElementById("greeter").textContent = activePin
+  document.getElementById("hud").style.bottom = "2vw"
 }
 
 touch0 = 0 //Where the touch was first performed
@@ -26,7 +30,7 @@ moved = 0 //Record if the pointer moved
 movement = 0 //The current movement of the item in pixels
 mode = 0
 initHeight = "80mm" //Initial height of the HUD
-openHeight = "50%"
+openHeight = "60%"
 setHeight = initHeight
 document.getElementById("hud").style.height = initHeight
 document.getElementById("hud").style.bottom = `-${setHeight}`
@@ -45,16 +49,16 @@ function handleMove(evt) {
     truHeight = parseInt(window.getComputedStyle(document.getElementById("hud")).getPropertyValue("height"), 10)
     if(truHeight < (window.innerHeight * 0.08)) {
       document.getElementById("hud").style.height = `${(window.innerHeight * 0.08)}px`
-    } else if (truHeight > (window.innerHeight * 0.6)) {
-      document.getElementById("hud").style.height = `${(window.innerHeight * 0.6)}px`
+    } else if (truHeight > (window.innerHeight * 0.7)) {
+      document.getElementById("hud").style.height = `${(window.innerHeight * 0.7)}px`
     }
-    console.debug(movement)
+    print(movement)
   }
 }
 
 function handleUp(evt) {
   if(moved != 0) {
-    if(moved == 1) {mode = (mode == 0) ? 1:0}
+    if(moved == 1 && mode == 0) {mode = 1}
     if(movement > 150 && mode == 0) {
       mode = 1
     } else if(movement < -50 && mode == 0) {

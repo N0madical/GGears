@@ -3,7 +3,7 @@
     "name": "Gompei's Gears Bike Rental",
     "short_name": "Gompei's Gears",
     "description": "For all your free rental needs!",
-    "start_url": "/?standalone=true",
+    "start_url": "",
     "background_color": "#0D1017",
     "theme_color": "#0D1017",
     "orientation": "any",

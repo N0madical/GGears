@@ -1,5 +1,22 @@
 zones = []
+fills = []
+max = []
+names = []
+pins = []
+pinicons = []
 let mainMap
+
+fetch(`${window.location.href}server/max.txt`).then(response => {
+  return response.text()
+}).then(data => {
+  max = data.trim().split(",")
+});
+
+fetch(`${window.location.href}server/names.txt`).then(response => {
+  return response.text()
+}).then(data => {
+  names = data.trim().split(",")
+});
 
 async function initMap() {
   const { Map } = await google.maps.importLibrary("maps");
@@ -29,12 +46,24 @@ async function initMap() {
     controlSize: 50,
   });
 
+  fetch(`${window.location.href}server/fill.txt`, { cache: 'no-cache' }).then(response => {
+    return response.text()
+  }).then(data => {
+    recieveFill(data)
+  });
+
+}
+
+function recieveFill(dataIn) {
+  fills = dataIn.trim().split(",")
+  fills = fills.map(numberIn => Number(numberIn))
+  print(fills)
+
   fetch(`${window.location.href}server/zones.csv`).then(response => {
     return response.text()
   }).then(data => {
     generateZones(data)
   });
-
 }
 
 async function generateZones(csvIn) {
@@ -47,7 +76,7 @@ async function generateZones(csvIn) {
   data = data.map(item => [item[0], item[1].split(", ")])
   
   for(let i in data) {
-    let fillLevel = Math.floor(Math.random()*5)
+    let fillLevel = fills[i]
     let cords = []
 
     for(let j in data[i][1]) {
@@ -67,6 +96,7 @@ async function generateZones(csvIn) {
     pinImg.src = `pins/pin${fillLevel}.svg`
     pinImg.style.height = "40mm"
     document.body.appendChild(pinImg)
+    pins.push(pinImg)
     const pin = new PinElement({
       scale: 3,
       glyph: pinImg
@@ -81,11 +111,27 @@ async function generateZones(csvIn) {
     marker.addListener("click", ({ domEvent, latLng }) => {
       const { target } = domEvent;
 
-      showHud(data[i][0])
+      showHud(names[i],fills[i],max[i])
     });
     zone.setMap(mainMap)
     zones.push(zone)
   }
+  print(pins)
 }
 
 initMap();
+
+function updatePins(dataIn) {
+  dataList = dataIn.trim().split(",")
+  // print(dataList)
+  for(let i in dataList) {
+    pins[i].src = `pins/pin${dataList[i]}.svg`
+  }
+
+}
+
+setInterval(getFill => fetch(`${window.location.href}server/fill.txt`, { cache: 'no-cache' }).then(response => {
+  return response.text()
+}).then(data => {
+  updatePins(data)
+}), 2000)

@@ -15,6 +15,19 @@
     width: 100vw;
 }
 
+#camera {
+    margin-top: 40mm;
+    width: 200mm;
+    height: 200mm;
+    background-color: white;
+    border: 5px solid black;
+    border-radius: 20mm;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    display: block;
+}
+
 html,
 body {
     height: 100%;
@@ -23,6 +36,7 @@ body {
     padding: 0;
     background-color: #AB2B37;
     position: fixed;
+    max-width: 50vh;
 }
 
 #hud {
@@ -34,6 +48,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     box-shadow: rgba(0,0,0,0.5) 0 0 3px;
+    overflow: hidden;
 }
 
 #header {
@@ -65,6 +80,7 @@ body {
 
 #greeter {
     padding-top: 15mm;
+    margin-bottom: 0mm;
 }
 
 .logo {
