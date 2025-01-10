@@ -1,13 +1,10 @@
-const video = document.getElementById("cameraFeed");
+const html5QrCode = new Html5Qrcode("scanner");
+const config = { fps: 10, qrbox: { width: 500, height: 500 } };
+
+const onScanSuccess = (decodeText, decodeResult) => {
+  alert("Selected Bike: " + decodeText, decodeResult)
+}
 
 function activateCamera() {
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(function (stream) {
-            video.srcObject = stream;
-          })
-          .catch(function (err0r) {
-            console.log("Something went wrong!");
-          });
-      }
+  html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
 }
