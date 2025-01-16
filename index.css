@@ -15,8 +15,13 @@
     width: 100vw;
 }
 
+<<<<<<< Updated upstream
 #scannerFrame {
     margin-top: 40mm;
+=======
+#camera {
+    margin-top: 20mm;
+>>>>>>> Stashed changes
     width: 200mm;
     height: 200mm;
     background-color: white;
